@@ -1,0 +1,28 @@
+
+# Cache, session files and logs (Symfony3)
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+!var/sessions/.gitkeep
+
+# Logs (Symfony4)
+/var/log/*
+!var/log/.gitkeep
+
+/public/fichiers/
+
+# Composer PHAR
+/composer.phar
+
+# Backup entities generated with doctrine:generate:entities command
+**/Entity/*~
+
+# Embedded web-server pid file
+/.web-server-pid
+/migrations/
+/node_modules/
+/.vscode/
+/.env
+/config/packages/nelmio_cors.yaml
