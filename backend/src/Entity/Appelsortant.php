@@ -82,6 +82,11 @@ class Appelsortant
      */
     private $verbatimclient;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Statuttransformation::class, inversedBy="appelsortants")
+     */
+    private $statuttransformation;
+
 
     public function __construct()
     {
@@ -186,6 +191,18 @@ class Appelsortant
     public function setVerbatimclient(?string $verbatimclient): self
     {
         $this->verbatimclient = $verbatimclient;
+
+        return $this;
+    }
+
+    public function getStatuttransformation(): ?Statuttransformation
+    {
+        return $this->statuttransformation;
+    }
+
+    public function setStatuttransformation(?Statuttransformation $statuttransformation): self
+    {
+        $this->statuttransformation = $statuttransformation;
 
         return $this;
     }
