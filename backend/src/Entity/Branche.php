@@ -41,7 +41,7 @@ class Branche
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true , options={"comment":"Ecriture"})
-     * @Groups({"lecture"})
+     * @Groups({"lecture", "ecriture"})
      */
     private $description;
 
