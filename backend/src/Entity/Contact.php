@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -106,9 +108,23 @@ class Contact
      */
     private $photo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Categoriecontact::class, inversedBy="contacts")
+     *  @ORM\JoinColumn(nullable=true, name="categoriecontact")
+     * @Groups({"lecture", "ecriture"})
+     */
+    private $categoriecontact;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Appelentrant::class, mappedBy="contact")
+     */
+    private $appelentrants;
+
     public function __construct() {
         $this->creele = new DateTime();
         $this->photo = "avatar_contact.phg";
+        $this->appelentrants = new ArrayCollection();
+        $this->civilite = "M";
     }
 
     public function getId(): ?int
@@ -256,6 +272,48 @@ class Contact
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCategoriecontact(): ?Categoriecontact
+    {
+        return $this->categoriecontact;
+    }
+
+    public function setCategoriecontact(?Categoriecontact $categoriecontact): self
+    {
+        $this->categoriecontact = $categoriecontact;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Appelentrant[]
+     */
+    public function getAppelentrants(): Collection
+    {
+        return $this->appelentrants;
+    }
+
+    public function addAppelentrant(Appelentrant $appelentrant): self
+    {
+        if (!$this->appelentrants->contains($appelentrant)) {
+            $this->appelentrants[] = $appelentrant;
+            $appelentrant->setContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppelentrant(Appelentrant $appelentrant): self
+    {
+        if ($this->appelentrants->removeElement($appelentrant)) {
+            // set the owning side to null (unless already changed)
+            if ($appelentrant->getContact() === $this) {
+                $appelentrant->setContact(null);
+            }
+        }
 
         return $this;
     }
